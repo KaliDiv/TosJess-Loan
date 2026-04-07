@@ -11,7 +11,7 @@ async function startServer() {
   // In-memory store for demo purposes
   const trackingData: any[] = [];
   let whatsappConfig = {
-    phoneNumber: "2348103612710",
+    phoneNumber: "+2348103612710",
     message: "Hello TOSJESS Investment Limited, I want to apply for a loan.",
     floatingEnabled: true
   };

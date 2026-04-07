@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { ArrowRight, ShieldCheck, Users, CheckCircle2, MessageCircle, Settings } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, ShieldCheck, Users, CheckCircle2, MessageCircle, Settings, Menu, X } from 'lucide-react';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { AdminDashboard } from './components/AdminDashboard';
+import { LoanCalculator } from './components/LoanCalculator';
 import { trackWhatsAppClick } from './lib/tracking';
 
 export default function App() {
   const [isAdminView, setIsAdminView] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [config, setConfig] = useState({
-    phoneNumber: "2348103612710",
+    phoneNumber: "+2348103612710",
     message: "Hello TOSJESS Investment Limited, I want to apply for a loan.",
     floatingEnabled: true
   });
@@ -38,12 +40,40 @@ export default function App() {
             <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#">How It Works</a>
             <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#">FAQ</a>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <button className="bg-navy text-white px-7 py-2.5 rounded-full font-bold text-sm tracking-wide hover:bg-navy/90 transition-all shadow-lg shadow-navy/10">
               Apply Now
             </button>
           </div>
+          <button 
+            className="md:hidden text-navy p-2 -mr-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white border-b border-navy/5 overflow-hidden"
+            >
+              <div className="flex flex-col px-8 py-6 gap-6">
+                <a className="text-gold font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
+                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>Loans</a>
+                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>How It Works</a>
+                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>FAQ</a>
+                <button className="bg-navy text-white px-7 py-4 rounded-full font-bold text-lg tracking-wide hover:bg-navy/90 transition-all shadow-lg shadow-navy/10 mt-2 w-full">
+                  Apply Now
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero Section */}
@@ -179,6 +209,9 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* Loan Calculator Section */}
+      <LoanCalculator config={config} />
 
       {/* FAQ / Help Section with WhatsApp Integration */}
       <section className="py-32 bg-white">

@@ -1,4 +1,4 @@
-export const trackWhatsAppClick = async (source: string, config?: { phone?: string, message?: string }) => {
+export const trackWhatsAppClick = async (source: string, config?: { phoneNumber?: string, message?: string }) => {
   const timestamp = Date.now();
   const device = /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
 
@@ -23,7 +23,9 @@ export const trackWhatsAppClick = async (source: string, config?: { phone?: stri
   }
 
   // 3. Open WhatsApp
-  const phone = config?.phone || "2348000000000";
+  const phone = config?.phoneNumber || "+2348103612710";
   const message = encodeURIComponent(config?.message || "Hello TOSJESS Investment Limited, I want to apply for a loan.");
-  window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+  // Remove any non-numeric characters except + for the wa.me link
+  const cleanPhone = phone.replace(/[^\d+]/g, '');
+  window.open(`https://wa.me/${cleanPhone}?text=${message}`, '_blank');
 };
