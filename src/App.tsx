@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, ShieldCheck, Users, CheckCircle2, MessageCircle, Settings, Menu, X } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Users, CheckCircle2, MessageCircle, Settings, Menu, X, Star, FileText, Clock, Banknote } from 'lucide-react';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { AdminDashboard } from './components/AdminDashboard';
 import { LoanCalculator } from './components/LoanCalculator';
@@ -35,10 +35,10 @@ export default function App() {
         <div className="flex justify-between items-center px-8 py-5 max-w-7xl mx-auto">
           <div className="text-2xl font-display font-black tracking-tight text-navy">TOSJESS</div>
           <div className="hidden md:flex gap-10 items-center">
-            <a className="text-gold font-bold border-b-2 border-gold pb-1 text-sm tracking-wide" href="#">Home</a>
-            <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#">Loans</a>
-            <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#">How It Works</a>
-            <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#">FAQ</a>
+            <a className="text-gold font-bold border-b-2 border-gold pb-1 text-sm tracking-wide" href="#home">Home</a>
+            <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#loans">Loans</a>
+            <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#how-it-works">How It Works</a>
+            <a className="text-navy/60 hover:text-navy transition-colors font-bold text-sm tracking-wide" href="#faq">FAQ</a>
           </div>
           <div className="hidden md:flex items-center gap-4">
             <button className="bg-navy text-white px-7 py-2.5 rounded-full font-bold text-sm tracking-wide hover:bg-navy/90 transition-all shadow-lg shadow-navy/10">
@@ -63,10 +63,10 @@ export default function App() {
               className="md:hidden bg-white border-b border-navy/5 overflow-hidden"
             >
               <div className="flex flex-col px-8 py-6 gap-6">
-                <a className="text-gold font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
-                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>Loans</a>
-                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>How It Works</a>
-                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#" onClick={() => setIsMobileMenuOpen(false)}>FAQ</a>
+                <a className="text-gold font-bold text-lg tracking-wide" href="#home" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
+                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#loans" onClick={() => setIsMobileMenuOpen(false)}>Loans</a>
+                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#how-it-works" onClick={() => setIsMobileMenuOpen(false)}>How It Works</a>
+                <a className="text-navy/80 hover:text-navy font-bold text-lg tracking-wide" href="#faq" onClick={() => setIsMobileMenuOpen(false)}>FAQ</a>
                 <button className="bg-navy text-white px-7 py-4 rounded-full font-bold text-lg tracking-wide hover:bg-navy/90 transition-all shadow-lg shadow-navy/10 mt-2 w-full">
                   Apply Now
                 </button>
@@ -77,7 +77,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-24 overflow-hidden min-h-screen flex items-center">
+      <section id="home" className="relative pt-40 pb-24 overflow-hidden min-h-screen flex items-center">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold/10 rounded-full blur-[120px] -z-10 translate-x-1/3 -translate-y-1/3"></div>
         
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
@@ -180,7 +180,7 @@ export default function App() {
       </section>
 
       {/* Services Section */}
-      <section className="py-32 bg-surface-low">
+      <section id="loans" className="py-32 bg-surface-low">
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
             <div className="max-w-2xl">
@@ -210,11 +210,92 @@ export default function App() {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-display font-black text-navy mb-6 tracking-tight">How It Works</h2>
+            <p className="text-navy/70 text-xl leading-relaxed">Get funded in three simple steps. We've removed the red tape so you can focus on your business.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+            {/* Connecting Line (Desktop) */}
+            <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-navy/5 -z-10"></div>
+            
+            {[
+              { step: "01", title: "Apply in Minutes", desc: "Fill out our quick online form or chat with us directly on WhatsApp to start your application.", icon: <FileText className="w-6 h-6 text-gold" /> },
+              { step: "02", title: "Fast Approval", desc: "Our team reviews your application instantly. No long queues, no unnecessary paperwork.", icon: <Clock className="w-6 h-6 text-gold" /> },
+              { step: "03", title: "Get Funded", desc: "Once approved, the funds are disbursed directly to your bank account within 24 hours.", icon: <Banknote className="w-6 h-6 text-gold" /> }
+            ].map((item, i) => (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: i * 0.2 }}
+                key={i} 
+                className="relative text-center"
+              >
+                <div className="w-24 h-24 mx-auto bg-surface-low rounded-full flex items-center justify-center border-8 border-white shadow-xl mb-8 relative z-10">
+                  {item.icon}
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-navy text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {item.step}
+                  </div>
+                </div>
+                <h3 className="text-2xl font-display font-black mb-4 tracking-tight text-navy">{item.title}</h3>
+                <p className="text-navy/70 leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Loan Calculator Section */}
       <LoanCalculator config={config} />
 
+      {/* Testimonials Section */}
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="absolute top-1/2 left-0 w-96 h-96 bg-gold/5 rounded-full blur-[100px] -z-10 -translate-y-1/2"></div>
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="text-center max-w-2xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-display font-black text-navy mb-6 tracking-tight">Trusted by Entrepreneurs</h2>
+            <p className="text-navy/70 text-xl leading-relaxed">Don't just take our word for it. Hear from the businesses we've helped grow.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { quote: "TOSJESS gave my retail business the lifeline it needed during the festive season. The WhatsApp application was incredibly smooth.", author: "Amina Y.", role: "Boutique Owner" },
+              { quote: "I was surprised by how fast the approval process was. No hidden fees, just straightforward lending. Highly recommended.", author: "Chukwudi O.", role: "Logistics Director" },
+              { quote: "The best financial partner for small businesses in Nigeria. Their customer service via WhatsApp is top-notch and always responsive.", author: "Folake A.", role: "Restaurant Manager" }
+            ].map((testimonial, i) => (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.2 }}
+                key={i} 
+                className="bg-surface-low p-10 rounded-[2rem] shadow-sm border border-navy/5 relative"
+              >
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, j) => <Star key={j} className="w-5 h-5 fill-gold text-gold" />)}
+                </div>
+                <p className="text-navy/80 text-lg leading-relaxed mb-8 italic">"{testimonial.quote}"</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-navy font-bold font-display shadow-sm">
+                    {testimonial.author.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-navy">{testimonial.author}</h4>
+                    <p className="text-sm text-navy/60">{testimonial.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ / Help Section with WhatsApp Integration */}
-      <section className="py-32 bg-white">
+      <section id="faq" className="py-32 bg-surface-low">
         <div className="max-w-4xl mx-auto px-8 text-center">
           <h2 className="text-4xl font-display font-black text-navy mb-6 tracking-tight">Need Help Applying?</h2>
           <p className="text-xl text-navy/70 mb-12">Our loan specialists are available right now to guide you through the process.</p>

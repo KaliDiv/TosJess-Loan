@@ -40,3 +40,14 @@ body {
   line-height: 1.05;
   letter-spacing: -0.04em;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(11, 28, 57, 0.1);
+  border-radius: 20px;
+}

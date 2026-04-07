@@ -13,6 +13,9 @@ export function LoanCalculator({ config }: { config: any }) {
   const totalRepayment = amount + totalInterest;
   const monthlyRepayment = totalRepayment / months;
 
+  const amountPercentage = ((amount - 50000) / (5000000 - 50000)) * 100;
+  const monthsPercentage = ((months - 1) / (12 - 1)) * 100;
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',
@@ -27,7 +30,7 @@ export function LoanCalculator({ config }: { config: any }) {
   };
 
   return (
-    <section className="py-32 bg-white relative overflow-hidden">
+    <section className="py-32 bg-surface-low relative overflow-hidden">
       <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-navy/5 rounded-full blur-[100px] -z-10 -translate-x-1/2 -translate-y-1/2"></div>
       
       <div className="max-w-7xl mx-auto px-8">
@@ -42,11 +45,20 @@ export function LoanCalculator({ config }: { config: any }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Controls */}
-          <div className="lg:col-span-7 bg-surface-low p-10 rounded-[2.5rem] border border-navy/5">
-            <div className="mb-12">
-              <div className="flex justify-between items-end mb-6">
+          <div className="lg:col-span-7 bg-white p-6 md:p-10 rounded-[2.5rem] shadow-sm border border-navy/5">
+            <motion.div whileHover={{ scale: 1.01 }} className="mb-8 md:mb-12 bg-surface p-6 md:p-8 rounded-3xl border border-navy/5 transition-all">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
                 <label className="font-bold text-navy text-lg">Loan Amount</label>
-                <span className="text-3xl font-display font-black text-gold">{formatCurrency(amount)}</span>
+                <div className="bg-white px-6 py-3 rounded-2xl shadow-sm border border-navy/5 flex items-center justify-center min-w-[200px]">
+                  <motion.span 
+                    key={amount}
+                    initial={{ opacity: 0.5, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-3xl font-display font-black text-gold"
+                  >
+                    {formatCurrency(amount)}
+                  </motion.span>
+                </div>
               </div>
               <input 
                 type="range" 
@@ -55,18 +67,30 @@ export function LoanCalculator({ config }: { config: any }) {
                 step="50000" 
                 value={amount} 
                 onChange={(e) => setAmount(Number(e.target.value))}
-                className="w-full h-2 bg-navy/10 rounded-lg appearance-none cursor-pointer accent-gold"
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-gold transition-all"
+                style={{
+                  background: `linear-gradient(to right, #D4AF37 ${amountPercentage}%, rgba(11, 28, 57, 0.1) ${amountPercentage}%)`
+                }}
               />
-              <div className="flex justify-between text-xs font-bold text-navy/40 mt-3 uppercase tracking-wider">
+              <div className="flex justify-between text-xs font-bold text-navy/40 mt-4 uppercase tracking-wider">
                 <span>₦50,000</span>
                 <span>₦5,000,000</span>
               </div>
-            </div>
+            </motion.div>
 
-            <div>
-              <div className="flex justify-between items-end mb-6">
+            <motion.div whileHover={{ scale: 1.01 }} className="bg-surface p-6 md:p-8 rounded-3xl border border-navy/5 transition-all">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
                 <label className="font-bold text-navy text-lg">Duration (Months)</label>
-                <span className="text-3xl font-display font-black text-gold">{months} Months</span>
+                <div className="bg-white px-6 py-3 rounded-2xl shadow-sm border border-navy/5 flex items-center justify-center min-w-[200px]">
+                  <motion.span 
+                    key={months}
+                    initial={{ opacity: 0.5, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-3xl font-display font-black text-gold"
+                  >
+                    {months} Months
+                  </motion.span>
+                </div>
               </div>
               <input 
                 type="range" 
@@ -75,13 +99,16 @@ export function LoanCalculator({ config }: { config: any }) {
                 step="1" 
                 value={months} 
                 onChange={(e) => setMonths(Number(e.target.value))}
-                className="w-full h-2 bg-navy/10 rounded-lg appearance-none cursor-pointer accent-gold"
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-gold transition-all"
+                style={{
+                  background: `linear-gradient(to right, #D4AF37 ${monthsPercentage}%, rgba(11, 28, 57, 0.1) ${monthsPercentage}%)`
+                }}
               />
-              <div className="flex justify-between text-xs font-bold text-navy/40 mt-3 uppercase tracking-wider">
+              <div className="flex justify-between text-xs font-bold text-navy/40 mt-4 uppercase tracking-wider">
                 <span>1 Month</span>
                 <span>12 Months</span>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Results */}
