@@ -15,11 +15,26 @@ export function AdminDashboard({ onClose }: { onClose: () => void }) {
 
   const fetchData = () => {
     fetch('/api/admin/whatsapp/stats')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok || res.headers.get('content-type')?.includes('text/html')) {
+          throw new Error('API not available');
+        }
+        return res.json();
+      })
       .then(data => {
         const sortedStats = (data.trackingData || []).sort((a: any, b: any) => b.timestamp - a.timestamp);
         setStats(sortedStats);
         setConfig(data.config);
+      })
+      .catch(err => {
+        console.error("Failed to load stats:", err);
+        // Fallback for static deployments (like Vercel) where the backend isn't running
+        setStats([]);
+        setConfig({
+          phoneNumber: "+2348103612710",
+          message: "Hello TOSJESS Investment Limited, I want to apply for a loan.",
+          floatingEnabled: true
+        });
       });
   };
 
@@ -29,18 +44,28 @@ export function AdminDashboard({ onClose }: { onClose: () => void }) {
 
   const handleSave = async () => {
     setIsSaving(true);
-    await fetch('/api/admin/whatsapp/config', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(config)
-    });
+    try {
+      await fetch('/api/admin/whatsapp/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(config)
+      });
+      alert('Settings saved successfully!');
+    } catch (err) {
+      console.error("Failed to save config:", err);
+      alert('Note: Settings cannot be saved permanently on static hosting (like Vercel).');
+    }
     setIsSaving(false);
   };
 
   const handleClearLogs = async () => {
     if (!confirm('Are you sure you want to clear all tracking logs? This action cannot be undone.')) return;
     setIsClearing(true);
-    await fetch('/api/admin/whatsapp/clear', { method: 'POST' });
+    try {
+      await fetch('/api/admin/whatsapp/clear', { method: 'POST' });
+    } catch (err) {
+      console.error("Failed to clear logs:", err);
+    }
     setStats([]);
     setIsClearing(false);
   };
