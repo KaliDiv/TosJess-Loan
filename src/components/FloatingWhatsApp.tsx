@@ -18,7 +18,7 @@ export function FloatingWhatsApp({ config }: FloatingWhatsAppProps) {
 
   const handleClick = () => {
     trackWhatsAppClick('floating_button', {
-      phone: config?.phoneNumber,
+      phoneNumber: config?.phoneNumber,
       message: config?.message
     });
   };

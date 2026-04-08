@@ -1,19 +1,27 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, ShieldCheck, Users, CheckCircle2, MessageCircle, Settings, Menu, X, Star, FileText, Clock, Banknote } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Users, CheckCircle2, MessageCircle, Menu, X, Star, FileText, Clock, Banknote, Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { AdminDashboard } from './components/AdminDashboard';
 import { LoanCalculator } from './components/LoanCalculator';
 import { trackWhatsAppClick } from './lib/tracking';
 
 export default function App() {
-  const [isAdminView, setIsAdminView] = useState(false);
+  const [isAdminView, setIsAdminView] = useState(window.location.pathname === '/admin');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [config, setConfig] = useState({
     phoneNumber: "+2348103612710",
     message: "Hello TOSJESS Investment Limited, I want to apply for a loan.",
     floatingEnabled: true
   });
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setIsAdminView(window.location.pathname === '/admin');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   useEffect(() => {
     fetch('/api/admin/whatsapp/stats')
@@ -24,8 +32,19 @@ export default function App() {
       .catch(err => console.error("Failed to load config", err));
   }, []);
 
+  const navigateToAdmin = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    window.history.pushState({}, '', '/admin');
+    setIsAdminView(true);
+  };
+
+  const navigateToHome = () => {
+    window.history.pushState({}, '', '/');
+    setIsAdminView(false);
+  };
+
   if (isAdminView) {
-    return <AdminDashboard onClose={() => setIsAdminView(false)} />;
+    return <AdminDashboard onClose={navigateToHome} />;
   }
 
   return (
@@ -349,13 +368,20 @@ export default function App() {
           <div>
             <div className="text-2xl font-display font-black text-white mb-6 tracking-tight">TOSJESS</div>
             <p className="text-white/50 text-sm leading-relaxed mb-8">Providing innovative financial solutions to empower Nigerian entrepreneurs since 2024.</p>
-            <button 
-              onClick={() => setIsAdminView(true)}
-              className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-white/40 hover:text-white -ml-2"
-              title="Admin Dashboard"
-            >
-              <Settings className="w-5 h-5" />
-            </button>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all">
+                <Linkedin className="w-5 h-5" />
+              </a>
+            </div>
           </div>
           <div>
             <h5 className="text-xs font-bold tracking-widest uppercase text-gold mb-8">Navigation</h5>

@@ -34,6 +34,11 @@ async function startServer() {
     res.json({ success: true, config: whatsappConfig });
   });
 
+  app.post('/api/admin/whatsapp/clear', (req, res) => {
+    trackingData.length = 0;
+    res.json({ success: true });
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
